@@ -1,9 +1,11 @@
-package com.example.demo;
+package me.junseok.demobootweb;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +40,14 @@ public class SampleControllerTest {
 					.param("id", savePerson.getId().toString()))
 				.andDo(print())
 				.andExpect(content().string("hello junseok"));
+	}
+	
+	@Test
+	public void hellostatic() throws Exception {
+		this.mockMvc.perform(get("/index.html"))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content().string(Matchers.containsString("hello index")));
+		
 	}
 }
