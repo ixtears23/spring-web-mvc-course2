@@ -12,19 +12,31 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import me.junseok.demobootweb.Person;
+import me.junseok.demobootweb.PersonRepository;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-//@WebMvcTest
 public class SampleControllerTest {
 
 	@Autowired
 	MockMvc mockMvc;
 	
+	@Autowired
+	PersonRepository personRepository;
+	
 	@Test
 	public void hello() throws Exception {
-		this.mockMvc.perform(get("/hello").param("name", "keesun"))
+		
+		Person person = new Person();
+		person.setName("junseok");
+		Person savePerson = personRepository.save(person);
+		
+		
+		this.mockMvc.perform(get("/hello")
+					.param("id", savePerson.getId().toString()))
 				.andDo(print())
-				.andExpect(content().string("hello keesun"));
+				.andExpect(content().string("hello junseok"));
 	}
 }
